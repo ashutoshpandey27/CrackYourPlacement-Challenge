@@ -1,0 +1,68 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+
+        // ** brute force solution will be to take another matrix, or 
+        // traverse this matrix only and whenever got mat[i][j] == 0, make 
+        // whole row(i)and col(j) to -1
+
+        // now again traverse the matrix and wherever encounter 0 or -1 just 
+        // make it 0 to that cell
+
+        // ** optimized by t.c. ** 
+        //use two vectors for rows and cols, and keep track that for a 
+       // particular row or col is there 0 are there if yes, mark it as true, 
+       // after that traverse matrix again now for a particular cell, check 
+       // in row and col vector if any of one's values is true make that cell 
+       //as 0
+
+    //    ** space optimized approach, 
+    // use first row and first col of given matrix as, lookup vector to fill 
+    // matrix
+
+        int m = matrix.size() , n = matrix[0].size();
+
+        bool firstRow = false , firstCol = false;
+
+        for(int i = 0 ; i < m ; i++)
+        {
+            for(int j = 0 ; j < n ; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    if(i == 0)
+                        firstRow = true;
+                    if(j == 0)
+                        firstCol = true;
+
+                    matrix[i][0] = 0;
+
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        for(int i = 1 ; i < m ; i++)
+        {
+            for(int j = 1 ; j < n ; j++)
+            {
+                if(matrix[i][0] == 0 or matrix[0][j] == 0)
+                {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+            if(firstCol)
+                for(int i = 0 ; i < m ; i++)
+                    matrix[i][0] = 0;
+
+            if(firstRow)
+                for(int j = 0 ; j < n ; j++)
+                    matrix[0][j] = 0;
+        
+
+        return;
+  
+    }
+};
