@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+
+        // naive approach
+        1. use map 
+        2. sort nums, at any valid place nums[i] == nums[i+1], return nums[i]
+
+        // Optimal approach
+
+        // Using Hare and Tortoise method, move solw pointer by 1 while fast by 2 until then both meet, after meeting start slow from initial and fast from there 
+        // itself, move both pointer with speed 1, now when they meet again slow will pointing to duplicate number
+
+        int n = nums.size();
+
+        int s = nums[0] , f = nums[0];
+
+        s = nums[s];
+
+        f = nums[nums[f]];
+
+        while(s != f)
+        {
+            s = nums[s];
+
+            f = nums[nums[f]];
+        }
+
+        s = nums[0];
+
+        while(s != f)
+        {
+            s = nums[s];
+
+            f = nums[f];
+        }
+
+        return s;
+        
+    }
+};
