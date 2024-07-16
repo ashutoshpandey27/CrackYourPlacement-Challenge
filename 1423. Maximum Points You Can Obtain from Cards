@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+
+        int maxi = 0 , n = cardPoints.size() , scoreBeg = 0;
+
+        for(int i = 0 ; i < k ; i++)
+        {
+            scoreBeg += cardPoints[i];
+        }
+
+        maxi = max(maxi , scoreBeg);
+
+        int i = k-1 , scoreEnd= 0;
+
+        for(int j = n-1 ; j >= n - k and i >= 0; j--)
+        {
+            scoreBeg -= cardPoints[i];
+
+            scoreEnd += cardPoints[j];
+
+            maxi = max(maxi , scoreEnd + scoreBeg);
+
+            i--;
+
+            maxi = max(maxi , scoreEnd);
+        }
+
+        return maxi;
+        
+    }
+};
