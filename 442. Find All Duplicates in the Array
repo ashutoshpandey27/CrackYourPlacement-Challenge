@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+
+        int n = nums.size();
+
+        if(n == 1)
+            return {};
+
+        vector<int>dupli;
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            
+            int indx = abs(nums[i]) - 1;
+
+            if(nums[indx] < 0)
+            {
+                dupli.push_back(indx + 1);
+            }
+
+            nums[indx] = nums[indx] * -1;
+        }
+
+        return dupli;
+        
+    }
+};
