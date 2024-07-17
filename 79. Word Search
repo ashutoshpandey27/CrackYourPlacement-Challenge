@@ -1,0 +1,65 @@
+class Solution {
+
+    private:
+
+    int delRow[4] = {-1 , 0 , 1 , 0};
+
+    int delCol[4] = {0 , 1 , 0 , -1};
+
+    int m , n;
+
+    bool solve(int indx , int i , int j , 
+        vector<vector<char>>& board, string &word)
+        {
+            if(indx == word.length() - 1 and 
+            board[i][j] == word[word.length() - 1])
+                return true;
+            
+            char ch = board[i][j];
+            
+            board[i][j] = '1';
+
+            for(int k = 0 ; k < 4 ; k++)
+            {
+                int nrow = i + delRow[k];
+
+                int ncol = j + delCol[k];
+
+                if(nrow >= 0 and nrow < m and ncol >= 0 and ncol < n and 
+                    board[nrow][ncol] == word[indx + 1] and 
+                    board[nrow][ncol] != '1')
+                    {
+                        if(solve(indx + 1 , nrow , ncol , board , word))
+                            return true;
+                    }
+            }
+
+            board[i][j] = ch;
+
+            return false;
+        }
+
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        m = board.size(); 
+
+        n = board[0].size();
+
+        for(int i = 0 ; i < m ; i++)
+        {
+            for(int j = 0 ; j < n ; j++)
+            {
+                if(board[i][j] == word[0])
+                {
+                    if(solve(0 , i , j , board , word))
+                        return true;
+                }
+
+                cout<<endl;
+            }
+        }
+
+        return false;
+    }
+};
