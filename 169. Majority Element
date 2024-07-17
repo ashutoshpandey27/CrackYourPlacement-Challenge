@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+
+        int majElem = nums[0] , cntVotes = 1 , n = nums.size();
+
+        for(int i = 1 ; i < n ; i++)
+        {
+            if(cntVotes <= 0)
+            {
+                    majElem = nums[i];
+            }
+            
+            if(nums[i] == majElem)
+            {
+                cntVotes++;
+            }
+            else
+            {
+                cntVotes--; 
+            }
+        }
+
+        return majElem;
+        
+    }
+};
