@@ -1,0 +1,92 @@
+class Solution {
+
+    private:
+
+    // bool isBalanced(string temp)
+    // {
+    //     stack<char>st;
+
+    //     for(auto &ch : temp)
+    //     {
+    //         if(!st.empty() and ch == ')')
+    //         {
+    //             if(st.top() != '(')
+    //                 return false;
+
+    //             st.pop();
+    //         }
+    //         else
+    //         {
+    //             st.push(ch);
+    //         }
+    //     }
+
+    //     return st.empty();
+    // }
+
+    // void solve(int len , string temp , vector<string>&ans)
+    // {
+    //     if(len == 0)
+    //     {
+    //         if(isBalanced(temp))
+    //         {
+    //             ans.push_back(temp);
+    //         }
+
+    //         return;
+    //     }
+
+    //     solve(len - 1 , temp + ')' , ans);
+
+    //     solve(len - 1 , temp + '(' , ans);
+    // }
+
+     void solve(int len , int open , int close , string temp , 
+     vector<string>&ans , int n)
+    {
+        if(len == 0)
+        {
+            ans.push_back(temp);
+
+            return;
+        }
+
+        if(open < n)
+         solve(len - 1 , open + 1 , close , temp + '(' , ans , n);
+        
+        if(close < open)
+        solve(len - 1 , open , close + 1 , temp + ')' , ans , n);
+    }
+
+public:
+    vector<string> generateParenthesis(int n) {
+
+        // ** Brute force approach
+
+        // int len = 2*n;
+
+        // vector<string>ans;
+
+        // string temp = "";
+
+        // solve(len , temp , ans);
+        
+        // return ans;
+
+        // ** optimal approach
+
+        int len = 2*n;
+
+        vector<string>ans;
+
+        string temp = "";
+
+        int open = 0 , close = 0;
+
+        solve(len , open , close , temp , ans , n);
+        
+        return ans;
+
+
+    }
+};
