@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string convertToTitle(int colNumber) {
+
+        string ans = "";
+
+        while(colNumber)
+        {
+            colNumber--;
+
+            ans += colNumber%26 + 'A';
+
+            colNumber /= 26;
+
+        }
+
+        reverse(begin(ans) , end(ans));
+
+        return ans;
+        
+    }
+};
