@@ -1,0 +1,62 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+
+        int n1 = a.length() , n2 = b.length();
+
+        reverse(begin(a) , end(a));
+
+        reverse(begin(b) , end(b));
+
+        int i = 0 , j = 0;
+
+        string sum = "";
+
+        int carry = 0;
+
+        while(i < n1 and j < n2)
+        {
+            int num = (a[i] - '0') + (b[j] - '0') + carry;
+
+            sum += (num%2) + '0';
+
+            carry = num/2;
+
+            i++;
+
+            j++;
+        }
+
+        while(i < n1)
+        {
+            int num = (a[i] - '0') + carry;
+
+            sum += (num%2) + '0';
+
+            carry = num/2;
+
+            i++;
+        }
+
+        while(j < n2)
+        {
+            int num = (b[j] - '0') + carry;
+
+            sum += (num%2) + '0';
+
+            carry = num/2;
+
+            j++;
+        }
+
+        if(carry)
+        {
+            sum += '1';
+        }
+
+        reverse(begin(sum) , end(sum));
+
+        return sum;
+        
+    }
+};
