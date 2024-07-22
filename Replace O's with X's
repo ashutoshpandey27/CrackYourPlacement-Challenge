@@ -1,0 +1,100 @@
+// User function Template for C++
+
+class Solution{
+public:
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
+    {
+        
+        queue<pair<int,int>>q;
+        
+        vector<vector<int>>vis(n , vector<int>(m , 0));
+        
+        // traversing boundary row's
+        
+        for(int j = 0 ; j < m ; j++)
+        {
+            // 1th row
+            if(mat[0][j] == 'O')
+            {
+                q.push({0 , j});
+                
+                vis[0][j] = 1;
+            }
+                
+                
+            // last row
+            if(mat[n-1][j] == 'O')
+             {
+                q.push({n - 1 , j});
+                
+                vis[n-1][j] = 1;
+            }   
+        }
+        
+        // traversing boundary col's
+        
+        for(int i = 1 ; i < n - 1 ; i++)
+        {
+            // 1st col
+            if(mat[i][0] == 'O')
+            {
+                 q.push({i , 0});
+                 
+                 vis[i][0] = 1;
+            }
+               
+                
+            // last col
+            if(mat[i][m-1] == 'O')
+            {
+                q.push({i , m-1});
+                
+                vis[i][m-1] = 1;
+            }
+        }
+        
+        int delRow[4] = { -1 , 0 , 1 , 0};
+        
+        int delCol[4] = { 0 , 1 , 0 , -1};
+        
+        while(!q.empty())
+        {
+            int row = q.front().first;
+            
+            int col = q.front().second;
+            
+            q.pop();
+            
+            // vis[row][col] = 1;
+            
+            for(int i = 0 ; i < 4 ; i++)
+            {
+                int nrow = row + delRow[i];
+                
+                int ncol = col + delCol[i];
+                
+                if(nrow >= 0 and nrow < n and ncol >= 0 and ncol < m 
+                and vis[nrow][ncol] == 0 and mat[nrow][ncol] == 'O')
+                {
+                    q.push({nrow , ncol});
+                    
+                    vis[nrow][ncol] = 1;
+                }
+            }
+            
+        }
+        
+        for(int i = 0 ; i < n ; i++)
+        {
+            for(int j = 0 ; j < m ; j++)
+            {
+                if(!vis[i][j])
+                    mat[i][j] = 'X';
+            }
+        }
+        
+            return mat;
+        
+        
+    }
+};
