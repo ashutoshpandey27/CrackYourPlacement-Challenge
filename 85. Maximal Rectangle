@@ -1,0 +1,84 @@
+class Solution {
+
+    private:
+
+    int findArea(vector<int>&height , int m)
+    {
+
+        // store the indx of next smaller to left and right
+        vector<int>nsl(m) , nsr(m);
+
+        stack<int>st; // store indx
+
+        // finding nsl
+        for(int i = 0 ; i < m ; i++)
+        {
+            
+            while(!st.empty() and height[st.top()] >= height[i])
+            {
+                st.pop();
+            }
+
+            if(st.empty())
+                nsl[i] = -1;
+            else
+                nsl[i] = st.top();
+
+            st.push(i);
+        }
+
+        while(!st.empty())
+            st.pop();
+
+        // find nsr
+
+        for(int i = m-1 ; i >= 0 ; i--)
+        {
+            while(!st.empty() and height[st.top()] >= height[i])
+            {
+                st.pop();
+            }
+
+            if(st.empty())
+                nsr[i] = m;
+            else
+                nsr[i] = st.top();
+
+            st.push(i);
+        }
+
+        int area = 0;
+
+        for(int i = 0 ; i < m ; i++)
+        {
+            area = max(area , ((nsr[i] - nsl[i]) - 1)*height[i]);
+        }
+
+        return area;
+    }
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+
+        int n = matrix.size() , m = matrix[0].size();
+
+        vector<int>height(m , 0);
+
+        int maxArea = 0;
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            for(int j = 0 ; j < m ; j++)
+            {
+                if(matrix[i][j] == '0')
+                    height[j] = 0;
+                else
+                   height[j] = height[j] + 1;
+            }
+
+            maxArea = max(maxArea , findArea(height , m));
+        }
+
+        return maxArea;
+        
+    }
+};
