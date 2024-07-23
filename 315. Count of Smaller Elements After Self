@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+
+        int n = nums.size();
+
+        vector<int>temp , ans(n);
+
+        temp.push_back(nums[n-1]);
+
+        for(int i = n - 2 ; i >= 0 ; i--)
+        {
+            int pos =  lower_bound(begin(temp) , end(temp) , nums[i]) - 
+                      temp.begin();
+
+            ans[i] = pos;
+
+            temp.insert(temp.begin() + pos , nums[i]);
+        }
+
+        return ans;
+        
+    }
+};
