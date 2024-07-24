@@ -1,0 +1,57 @@
+class Solution {
+    
+    private:
+    
+    int countCows(vector<int>&stalls , int n , int k)
+    {
+        int cnt = 1 , prev = stalls[0];
+        
+        for(int i = 1 ; i < n ; i++)
+        {
+            if((stalls[i] - prev) >= k)
+            {
+                cnt++;
+                
+                prev = stalls[i];
+            }
+            
+        }
+        
+        return cnt;
+        
+    }
+public:
+
+    int solve(int n, int k, vector<int> &stalls) {
+    
+        sort(begin(stalls) , end(stalls));
+        
+        int s = 0 , e = stalls[n-1] - stalls[0];
+        
+        int minDist = 0;
+        
+        while(s <= e)
+        {
+            int mid = s + (e - s)/2;
+            
+            int cnt = countCows(stalls , n , mid);
+            
+            //  cout<<mid<<" "<<cnt<<endl;
+            
+            if(cnt >= k)
+            {
+                minDist = mid;
+                
+                s = mid + 1;
+            }
+            else
+            {
+                e = mid - 1;
+            }
+            
+           
+        }
+        
+        return minDist;
+    }
+};
