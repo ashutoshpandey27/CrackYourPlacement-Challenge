@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+
+        // int n = arr.size();
+
+        // int num = 1 , i = 0;
+
+        // while(i < n and k > 0)
+        // {
+        //    if(arr[i] == num)
+        //    {
+        //       i++;
+        //    }
+        //    else
+        //         k--;
+
+        //     num++;
+        // }
+
+        // while(k)
+        // {
+        //     k--;
+
+        //     num++;
+        // }
+
+        // return num - 1;
+
+
+        // ** using binary search **
+
+        // so the approach is to just find the smallest indx in the arr, where
+        // number of missing elements on the left side is >= k
+
+        // now the ans will be, number of elements present that left side + k
+        // mtlb ki jitna indx present h left side me utna element to 
+        // hoga hi left side me + kth missing element we want
+
+        int n = arr.size() , s = 0 , e = n-1;
+
+        while(s <= e)
+        {
+            int mid = s + (e - s)/2;
+
+            int cntMissing  = arr[mid] - (mid + 1);
+
+            if(cntMissing >= k)
+            {
+                e = mid - 1;
+            }
+            else
+            {
+                s = mid + 1;
+            }
+        }
+
+        return s + k;
+        
+    }
+};
