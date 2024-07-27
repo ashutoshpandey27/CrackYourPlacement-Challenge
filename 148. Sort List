@@ -1,0 +1,121 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+
+    private:
+
+    ListNode* findMid(ListNode* head)
+    {
+        ListNode* slow = head , *fast = head->next;
+
+        while(fast and fast->next)
+        {
+            slow = slow->next;
+
+            fast = fast->next->next;
+        }
+
+        return slow;
+    }
+
+    ListNode* merge(ListNode* head1 , ListNode* head2)
+    {
+        if(!head1)
+            return head2;
+        
+        if(!head2)
+            return head1;
+
+        ListNode* head = NULL , *tail = NULL;
+
+        while(head1 and head2)
+        {
+            if(head1->val <= head2->val)
+            {
+                if(!head)
+                {
+                    head = tail = head1;
+                }
+                else
+                {
+                    tail->next = head1;
+
+                    tail = tail->next;
+                }
+
+                head1 = head1->next;
+            }
+            else
+            {
+                if(!head)
+                {
+                    head = tail = head2;
+                }
+                else
+                {
+                    tail->next = head2;
+
+                    tail = tail->next;
+                }
+
+                head2 = head2->next;
+            }
+        }
+
+        while(head1)
+        {
+             tail->next = head1;
+
+             tail = tail->next;
+
+             head1 = head1->next;
+        }
+
+         while(head2)
+        {
+             tail->next = head2;
+
+             tail = tail->next;
+
+             head2 = head2->next;
+        }
+
+        return head;
+    }
+
+    ListNode* mergeSort(ListNode* head)
+    {
+        if(!head or !head->next)
+            return head;
+
+        ListNode* mid = findMid(head);
+
+        ListNode* left = head;
+
+        ListNode* right = mid->next;
+
+        mid->next = NULL;
+
+        left = mergeSort(left);
+
+        right = mergeSort(right);
+
+        ListNode* ans = merge(left , right);
+
+        return ans;
+    }
+public:
+    ListNode* sortList(ListNode* head) {
+
+        return mergeSort(head);
+        
+    }
+};
