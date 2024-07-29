@@ -1,0 +1,62 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+
+    private:
+
+    void solve(Node* curr , vector<int>&temp)
+    {
+        if(!curr)
+            return;
+        
+        temp.push_back(curr->val);
+
+        if(curr->child)
+            solve(curr->child , temp);
+        
+        solve(curr->next , temp);
+    }
+public:
+    Node* flatten(Node* head) {
+
+        vector<int>temp;
+
+        Node* curr = head;
+
+        solve(curr , temp);
+
+        Node* newHead = NULL , *tail = NULL , *prev = NULL;
+
+        for(auto &it : temp)
+        {
+            if(!newHead)
+            {
+                newHead = tail = new Node(it);
+
+                prev = tail;
+            }
+            else
+            {
+                tail->next = new Node(it);
+
+                tail = tail->next;
+
+                tail->prev = prev;
+
+                prev = tail;
+            }
+        }
+
+        return newHead;
+        
+    }
+};
