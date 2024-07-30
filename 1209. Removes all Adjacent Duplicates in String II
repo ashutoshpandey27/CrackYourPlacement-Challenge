@@ -1,0 +1,59 @@
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+
+        stack<pair<char , int>>st;
+
+        int n = s.length() , i = 0;
+
+        while(i < n)
+        {
+            int cnt = 1;
+
+            while(i+1 < n and s[i] == s[i+1])
+            {
+                cnt++;
+
+                i++;
+            }
+
+            if(!st.empty() and st.top().first == s[i])
+            {
+                cnt += st.top().second;
+
+                st.pop();
+            } 
+
+            cnt = cnt%k;
+
+            if(cnt == 0)
+            {
+                i++;
+
+                continue;
+            }
+            else
+            {
+                st.push({s[i] , cnt});
+            }
+
+            i++;
+        }
+
+        string ans = "";
+
+        while(!st.empty())
+        {
+            std::string str(st.top().second , st.top().first);
+
+            ans += str;
+
+            st.pop();
+        }
+
+        reverse(begin(ans) , end(ans));
+
+        return ans;
+        
+    }
+};
