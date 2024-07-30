@@ -1,0 +1,48 @@
+class Solution {
+
+    private:
+
+    bool isSign(string ch)
+    {
+        return ch == "+" or ch == "-" or ch == "*" or ch == "/";
+    }
+
+    int eval(int num1 , int num2 , string op)
+    {
+        if(op == "+")
+            return num1 + num2;
+        else if(op == "-")
+            return num1 - num2;
+        else if(op == "*")
+            return num1*num2;
+        else 
+            return num1/num2;
+    }
+public:
+    int evalRPN(vector<string>& tokens) {
+        
+        int n = tokens.size();
+
+        stack<int>st;
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            if(isSign(tokens[i]))
+            {
+                int num2 = st.top();
+
+                st.pop();
+
+                int num1 = st.top();
+
+                st.pop();
+
+                st.push(eval(num1 , num2 , tokens[i]));
+            }
+            else
+                st.push(stoi(tokens[i]));
+        }
+
+        return st.top();
+    }
+};
