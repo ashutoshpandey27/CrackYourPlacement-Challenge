@@ -1,0 +1,103 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+
+  void makeAdj(TreeNode* root ,  unordered_map<int , vector<int>>&adj)
+  {
+      if(root == NULL)
+        return;
+
+      makeAdj(root->left , adj);
+
+      if(root->left)
+      {
+        adj[root->val].push_back(root->left->val);
+
+        adj[root->left->val].push_back(root->val);
+      }
+
+      if(root->right)
+      {
+        adj[root->val].push_back(root->right->val);
+
+        adj[root->right->val].push_back(root->val);
+      }
+
+      makeAdj(root->right , adj);
+  }
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+
+      unordered_map<int , vector<int>>adj;
+
+      makeAdj(root , adj);
+
+      for(auto it : adj)
+      {
+          cout<<it.first<<" - >"<<" ";
+
+          for(auto itr : it.second)
+            cout<<itr<<" ";
+
+          cout<<endl;
+      }
+
+      queue<int>q;
+
+      q.push(target->val);
+
+      vector<int>ans;
+
+      vector<int>vis(501 , 0);
+
+      vis[target->val] = 1;
+
+      while(!q.empty())
+      {
+        if(k == 0)
+          break;
+
+        int size = q.size();
+
+        while(size--)
+        {
+          
+            int node = q.front();
+            q.pop();
+
+            for(auto it : adj[node])
+            {
+              if(!vis[it])
+              {
+                q.push(it);
+                vis[it] = 1;
+              }
+                
+            }
+
+           
+        }
+
+           k--;
+
+      }
+
+      while(!q.empty())
+      {
+        ans.push_back(q.front());
+        q.pop();
+      }
+
+        return ans;
+
+
+        
+    }
+};
