@@ -1,0 +1,57 @@
+class Solution{
+    
+    private:
+    
+    // void inorder(Node* root , unordered_set<int>&in , vector<int>&leafs)
+    // {
+    //     if(!root)
+    //         return;
+            
+    //     if(!root->left and !root->right)
+    //     {
+           
+    //         leafs.push_back(root->data);
+    //     }
+        
+    //     inorder(root->left , in , leafs);
+        
+    //     in.insert(root->data);
+        
+    //     inorder(root->right , in , leafs);
+    // }
+    
+    bool solve(Node* root , int min , int max)
+    {
+        if(!root)
+            return false;
+            
+        if(min == max)
+            return true;
+            
+        return solve(root->left , min , root->data - 1) or solve(root->right , root->data + 1 , max);
+    }
+  public:
+    bool isDeadEnd(Node *root)
+    {
+        // vector<int>leafs;
+        
+        // unordered_set<int>in;
+        
+        // inorder(root , in , leafs);
+        
+        
+        // for(auto leaf : leafs)
+        // {
+        //     if(leaf == 1 and in.count(2))
+        //         return true;
+                
+        //     if(in.count(leaf - 1) and (in.count(leaf + 1)))
+        //         return true;
+        // }
+        
+        // return false;
+        
+        // ** optimal approach
+        
+        return solve(root , 1 , 10001);
+    }
