@@ -1,0 +1,95 @@
+class Solution {
+public:
+  
+    int minFlips(vector<vector<int>>& grid) {
+        
+    int rows = grid.size();
+        
+    int cols = grid[0].size();
+        
+    int flips = 0;
+
+    if (rows % 2 == 1 && cols % 2 == 1)
+    {
+        if (grid[rows / 2][cols / 2] == 1) 
+        {
+            flips += 1;
+            
+            grid[rows / 2][cols / 2] = 0;
+        }
+    }
+
+    vector<int> adjust(3, 0);
+
+    if (rows % 2 == 1) 
+    {
+        int left = 0, right = cols - 1;
+        
+        while (left < right) 
+        {
+            int sum = grid[rows / 2][left] + grid[rows / 2][right];
+            
+            adjust[sum] += 1;
+            
+            left += 1;
+            
+            right -= 1;
+        }
+    }
+
+    if (cols % 2 == 1)
+    {
+        int top = 0, bottom = rows - 1;
+        
+        while (top < bottom) 
+        {
+            int sum = grid[top][cols / 2] + grid[bottom][cols / 2];
+            
+            adjust[sum] += 1;
+            
+            top += 1;
+            
+            bottom -= 1;
+        }
+    }
+
+    if (adjust[2] % 2 == 1)
+    {
+        if (adjust[1] > 0) 
+        {
+            flips += adjust[1];
+        } else 
+        {
+            flips += 2;
+        }
+    } else 
+    {
+        flips += adjust[1];
+    }
+
+    for (int i = 0; i < rows / 2; ++i) 
+    {
+        for (int j = 0; j < cols / 2; ++j) 
+        {
+            int a = grid[i][j];
+            
+            int b = grid[rows - 1 - i][j];
+            
+            int c = grid[i][cols - 1 - j];
+            
+            int d = grid[rows - 1 - i][cols - 1 - j];
+
+            int sum = a + b + c + d;
+
+            if (sum != 0 && sum != 4) {
+                flips += min(sum, 4 - sum);
+            }
+        }
+    }
+
+    return flips;
+}
+
+        
+       
+};
