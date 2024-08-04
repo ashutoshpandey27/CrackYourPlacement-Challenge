@@ -1,0 +1,56 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+
+    private:
+
+    void solve(Node* root)
+    {
+        if(!root)
+            return;
+
+        if(!root->left or !root->right)
+            return;
+
+        root->left->next = root->right;
+
+        if(root->next)
+            root->right->next = root->next->left;
+
+        solve(root->left);
+
+        solve(root->right);
+    }
+public:
+    Node* connect(Node* root) {
+
+        // ** Approach 1 (using extra space)
+        // using level order traversal we can solve this problem
+
+        // approach 2 : using constant space
+
+        if(!root)
+            return root;
+
+         solve(root);
+
+         return root;
+        
+    }
+};
