@@ -1,0 +1,127 @@
+class Solution{
+    
+    private:
+    
+    // void makeAdj(Node* root , unordered_map<int , vector<int>>&adj)
+    // {
+    //     if(root == NULL)
+    //         return;
+            
+    //     if(root->left)
+    //     {
+    //         adj[root->data].push_back(root->left->data);
+            
+    //         adj[root->left->data].push_back(root->data);
+    //     }
+        
+    //     if(root->right)
+    //     {
+    //         adj[root->data].push_back(root->right->data);
+            
+    //         adj[root->right->data].push_back(root->data);
+    //     }
+        
+    //     makeAdj(root->left , adj);
+        
+    //     makeAdj(root->right , adj);
+    // }
+    
+    // Approach 2
+    
+    Node* find_lca(Node* root , int a , int b)
+    {
+        if(root == NULL)
+            return NULL;
+            
+        if(root->data == a or root->data == b)
+            return root;
+            
+        Node* leftAns = find_lca(root->left , a , b);
+        
+        Node* rightAns = find_lca(root->right , a , b);
+        
+        if(leftAns and rightAns)
+            return root;
+        else if(leftAns)
+            return leftAns;
+        else
+            return rightAns;
+    }
+    
+    int minDist(Node* root , int dest , int d)
+    {
+        if(root == NULL)
+            return 1e9 + 7;
+            
+        if(root->data == dest)
+            return d;
+            
+        int leftAns = minDist(root->left , dest , d + 1);
+        
+        int rightAns = minDist(root->right , dest , d + 1);
+        
+        return  min(leftAns , rightAns);
+        
+        
+    }
+    public:
+    /* Should return minimum distance between a and b
+    in a tree with given root*/
+    int findDist(Node* root, int a, int b) {
+        
+        // unordered_map<int , vector<int>>adj;
+        
+        // makeAdj(root , adj);
+        
+        // queue<int>q;
+        
+        // unordered_map<int , int>vis;
+        
+        // vis[a]++;
+        
+        // q.push(a);
+        
+        // int dist = 0;
+        
+        // while(!q.empty())
+        // {
+        //     int size = q.size();
+            
+        //     while(size--)
+        //     {
+        //         int node = q.front();
+                
+        //         q.pop();
+                
+        //         if(node == b)
+        //             return dist;
+                    
+        //         for(auto it : adj[node])
+        //         {
+        //             if(vis.count(it) == 0)
+        //             {
+        //                 vis[it]++;
+                        
+        //                 q.push(it);
+        //             }
+        //         }
+        //     }
+            
+        //     dist++;
+        // }
+        
+        // return -1;
+        
+        // *** Appraoch 2 using lowest common ancestor ***
+        
+        Node* lca = find_lca(root , a , b);
+        
+        // finding min dist
+        
+         return minDist(lca , a , 0) + minDist(lca , b , 0);
+        
+        
+        
+        
+    }
+};
