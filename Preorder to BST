@@ -1,0 +1,54 @@
+class Solution {
+    
+    private:
+    
+    int preIndx = 0;
+    
+    Node* solve(int s , int e , int pre[] , int in[])
+    {
+        if(s > e)
+            return NULL;
+            
+            
+        if(s == e)
+        {
+            Node* root = newNode(pre[preIndx++]);
+            
+            return root;
+        }
+            
+        int indx = 0;
+        
+        
+        for( indx = s ; indx <= e ; indx++)
+            if(in[indx] == pre[preIndx])
+            {
+                break;
+            }
+            
+        Node* node = newNode(pre[preIndx++]);
+        
+        node->left = solve(s , indx - 1 , pre , in);
+        
+        node->right = solve(indx + 1 , e , pre , in);
+        
+        return node;
+    }
+  public:
+    // Function that constructs BST from its preorder traversal.
+    Node* Bst(int pre[], int size) {
+        
+        int in[size];
+        
+        for(int i = 0 ; i < size ; i++)
+        {
+            in[i] = pre[i];
+        }
+        
+        sort(in , in + size);
+        
+        return solve(0 , size - 1 , pre , in);
+        
+        
+    }
+};
