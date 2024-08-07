@@ -1,0 +1,65 @@
+class Solution {
+
+       int ans0 = 0;
+
+       void makeAdj(vector<int>adj[] , vector<vector<int>>&edges)
+       {
+           for(auto edge : edges)
+           {
+                adj[edge[0]].push_back(edge[1]);
+
+                adj[edge[1]].push_back(edge[0]);
+           }
+       }
+
+       int dfs(int node , vector<int>adj[] , int prev , int dist , 
+       vector<int>&cntChild)
+       {
+            int cnt = 1;
+
+            ans0 += dist;
+
+            for(auto it : adj[node])
+            {
+                if(it == prev)
+                    continue;
+
+                cnt += dfs(it , adj , node , dist + 1 , cntChild);
+            }
+
+            return cntChild[node] = cnt;
+       }
+
+       void dfs1(int node , int prev , vector<int>adj[] , vector<int>&ans , 
+       vector<int>&cntChild , int n)
+       {
+           for(auto it : adj[node])
+           {
+                if(it == prev)
+                    continue;
+
+                ans[it] = ans[node] + n - 2*cntChild[it];
+
+                dfs1(it , node , adj , ans , cntChild , n);
+           }
+       }
+public:
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        
+        vector<int>adj[n];
+
+        makeAdj(adj , edges);
+
+        vector<int>cntChild(n , 0);
+
+        dfs(0 , adj , -1 , 0 , cntChild);
+
+        vector<int>ans(n);
+
+        ans[0] = ans0;
+
+        dfs1(0 , -1 , adj , ans , cntChild , n);
+
+        return ans;
+    }
+};
