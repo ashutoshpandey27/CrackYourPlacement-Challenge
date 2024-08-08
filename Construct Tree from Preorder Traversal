@@ -1,0 +1,22 @@
+Node* solve(int &i , int n , int pre[] , char preln[])
+{
+    if(i >= n)
+        return NULL;
+        
+    Node* root = new Node(pre[i]);
+    
+    if(preln[i++] == 'N')
+    {
+        root->left = solve(i , n , pre , preln);
+        
+        root->right = solve(i , n , pre , preln);
+    }
+    
+    return root;
+}
+struct Node *constructTree(int n, int pre[], char preLN[])
+{
+    int i = 0;
+    
+    return solve(i , n , pre , preLN);
+}
