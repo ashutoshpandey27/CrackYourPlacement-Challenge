@@ -1,0 +1,48 @@
+class Solution{
+    
+    private:
+    
+    vector<int> solve(Node* root)
+    {
+        if(!root)
+            return {0 , INT_MIN , INT_MAX};
+            
+        vector<int>left = solve(root->left);
+        
+        vector<int>right = solve(root->right);
+        
+        vector<int>temp(3);
+        
+        if(root->data > left[1] and root->data < right[2])
+        {
+            temp[0] = left[0] + right[0] + 1;
+            
+            temp[1] = max({root->data , left[1] , right[1]});
+            
+            temp[2] = min({root->data , left[2] , right[2]});
+        }
+        else
+        {
+            temp[0] = max(left[0] , right[0]);
+            
+            temp[1] = INT_MAX;
+            
+            temp[2] = INT_MIN;
+        }
+        
+        // cout<<temp[0]<<endl;
+        
+        return temp;
+    }
+    public:
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    int largestBst(Node *root)
+    {
+    	vector<int>temp;
+    	
+    	temp = solve(root);
+    	
+    	return temp[0];
+    }
+};
