@@ -1,0 +1,33 @@
+ bool solve(int node , int par , vector<int>adj[] , vector<int>&vis)
+    {
+        vis[node] = 1;
+        
+        for(auto it : adj[node])
+        {
+            if(it != par and vis[it])
+                return true;
+                
+            if(!vis[it])
+            {
+                if(solve(it , node , adj , vis))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool isCycle(int V, vector<int> adj[]) {
+        
+         vector<int>vis(V , 0);
+       
+         for(int i = 0 ; i < V ; i++)
+         {
+             
+             if(!vis[i] and solve(i , -1 , adj , vis))
+                return true;
+         }
+         
+         return false;
+    }
