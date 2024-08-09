@@ -1,0 +1,121 @@
+class Solution {
+
+    private:
+
+    int delRow[4] = {-1 , 0 , 1 , 0};
+
+    int delCol[4] = {0 , 1 , 0 , -1};
+
+    void dfs(int i , int j , vector<vector<int>>& grid , 
+            vector<vector<int>>&vis , int n , queue<pair<int,int>>&q)
+            {
+                vis[i][j] = 1;
+
+                for(int k = 0 ; k < 4 ; k++)
+                {
+                    int ni = i + delRow[k];
+
+                    int nj = j + delCol[k];
+
+                    if(ni >= 0 and ni < n and nj >= 0 and nj < n and 
+                    grid[ni][nj] and !vis[ni][nj])
+                    {
+                        q.push({ni , nj});
+
+                        dfs(ni , nj , grid , vis , n , q);
+                    }
+                }
+            }
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+
+        int n = grid.size();
+
+        vector<vector<int>>vis(n , vector<int>(n , 0));
+
+        int cnt1 = 0;
+
+        queue<pair<int , int>>q;
+
+        bool first = false;
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            for(int j = 0 ; j < n ; j++)
+            {
+                if(grid[i][j] == 1)
+                    cnt1++;
+            }
+        }
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            for(int j = 0 ; j < n ; j++)
+            {
+                if(grid[i][j] == 1 and vis[i][j] == 0)
+                {
+                    q.push({i , j});
+
+                    dfs(i , j , grid , vis , n , q);
+
+                    first = true;
+                }
+
+                if(first)
+                    break;
+            }
+
+            if(first)
+                break;
+            
+        } 
+
+        // cout<<cnt1<<" "<<q.size()<<endl;
+
+        if(cnt1 == q.size())
+            return 0;
+
+        int steps = 0;
+
+        while(!q.empty())
+        {
+            int size = q.size();
+
+            while(size--)
+            {
+                int i = q.front().first;
+
+                int j = q.front().second;
+
+                q.pop();
+
+                 for(int k = 0 ; k < 4 ; k++)
+                {
+                    int ni = i + delRow[k];
+
+                    int nj = j + delCol[k];
+
+                    if(ni >= 0 and ni < n and nj >= 0 and nj < n and 
+                    !vis[ni][nj])
+                    {
+                        if(!grid[ni][nj])
+                        {
+                            q.push({ni , nj});
+
+                            vis[ni][nj] = 1;
+                        }
+                        else
+                            return steps;
+                    }
+                }
+
+                
+            }
+
+            steps++;
+        }
+
+        return steps;
+        
+    }
+};
