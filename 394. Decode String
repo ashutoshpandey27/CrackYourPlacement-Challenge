@@ -1,0 +1,69 @@
+class Solution {
+public:
+    string decodeString(string s) {
+
+        stack<char>st;
+
+        for(auto ch : s)
+        {
+            if(ch == ']')
+            {
+                string str = "";
+
+                while(!st.empty() and st.top() != '[')
+                {
+                     str += st.top();
+
+                     st.pop();
+                }
+
+                if(!st.empty())
+                    st.pop();
+
+                reverse(begin(str) , end(str));
+
+                int num = 0;
+
+                string val = "";
+
+                while(!st.empty() and st.top() >= '0' and st.top() <= '9')
+                {
+                   val += st.top();
+
+                   st.pop();
+                }
+
+                reverse(begin(val) , end(val));
+
+                num = stoi(val);
+
+                string temp = "";
+
+                for(int i = 0 ; i < num ; i++)
+                    temp += str;
+
+                for(auto ch1 : temp)
+                {
+                    st.push(ch1);
+                }
+                   
+            }
+            else
+                st.push(ch);
+        }
+
+        string ans = "";
+
+        while(!st.empty())
+        {
+            ans += st.top();
+
+            st.pop();
+        }
+
+        reverse(begin(ans) , end(ans));
+
+        return ans;
+        
+    }
+};
