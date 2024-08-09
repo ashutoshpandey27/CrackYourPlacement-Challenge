@@ -1,0 +1,52 @@
+class Solution {
+
+    private:
+
+    void dfs(int node , vector<int>adj[] , vector<int>&vis)
+    {
+        vis[node] = 1;
+
+        for(auto it : adj[node])
+        {
+            if(!vis[it])
+                dfs(it , adj , vis);
+        }
+    }
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+
+        int cntEdges = connections.size();
+
+        if(n > cntEdges + 1)
+            return -1;
+        
+        // so the idea to find the number of connected componets in the graph
+        // and to add n connected components we required n-1 cables
+
+        vector<int>adj[n];
+
+        for(auto it : connections)
+        {
+            adj[it[0]].push_back(it[1]);
+
+            adj[it[1]].push_back(it[0]);
+        }
+
+        int cntComp = 0;
+
+        vector<int>vis(n , 0);
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            if(!vis[i])
+            {
+                cntComp++;
+
+                dfs(i , adj , vis);
+            }
+        }
+
+        return cntComp - 1;
+        
+    }
+};
