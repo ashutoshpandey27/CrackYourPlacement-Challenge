@@ -1,0 +1,82 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+
+
+
+        // *****************
+        // this problem is based on multisource BFS
+
+         int n = grid.size();
+
+         queue<pair<int,int>>q;
+
+         vector<vector<int>>vis(n , vector<int>(n , 0));
+
+         int cntland = 0 , cntwater = 0;
+
+            // first push all the co-ordinates of land into queue
+         for(int i = 0 ; i < n ; i++)
+         {
+             for(int j = 0 ; j < n ; j++)
+             {
+                 if(grid[i][j] == 1)
+                 {
+                     q.push({i , j});
+                     vis[i][j] = 1;
+                     cntland++;
+                 }
+                 else
+                 cntwater++;
+             }
+         }
+
+            // if no water or no land exist
+         if(cntland == n*n or cntwater == n*n)
+          return -1;
+
+         int delRow[4] = {-1 , 0 , 1 , 0};
+         int delCol[4] = {0 , 1 , 0 , -1};
+
+         int level = -1;
+
+
+        //  perform bfs (you have all the co-ordinates of lands so by 
+        // performing bfs we will reach water(0) level and will return 
+        // the max level so that all the water reached from all the 
+        // lands)
+
+         while(!q.empty())
+         {
+             int size = q.size();
+
+             for(int i = 0 ; i < size ; i++)
+             {
+                 int row = q.front().first;
+                 int col = q.front().second;
+
+                 q.pop();
+
+                 for(int j = 0 ; j < 4 ; j++)
+                 {
+                     int nrow = row + delRow[j];
+                     int ncol = col + delCol[j];
+
+                     if(nrow >= 0 and nrow < n and ncol >= 0 and ncol < 
+                     n and vis[nrow][ncol] == 0 )
+                     {
+                         vis[nrow][ncol] = 1;
+                         q.push({nrow,ncol});
+                     }
+                 }
+
+             }
+
+                level++;
+         }
+
+                return level;
+
+        
+    }
+};
