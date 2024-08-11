@@ -1,0 +1,75 @@
+class Solution {
+
+    private:
+
+    void dfs(string node , string tar , unordered_map<string , 
+    vector<pair<string , double>>>&adj , unordered_set<string>&vis , 
+    double &eval , double temp)
+    {
+        vis.insert(node);
+
+        if(node == tar)
+        {
+            eval = temp;
+
+            return;
+        }
+
+        for(auto it : adj[node])
+        {
+            string str = it.first;
+
+            double val = it.second;
+
+            if(!vis.count(str))
+                dfs(str , tar , adj , vis , eval , val*temp);
+        }
+    }
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+
+        unordered_set<string>st;
+
+        unordered_map<string , vector<pair<string , double>>>adj;
+
+        int n = values.size();
+
+        for(int i = 0 ; i < n ; i++)
+        {
+            string str1 = equations[i][0];
+
+            string str2 = equations[i][1];
+
+            st.insert(str1);
+
+            st.insert(str2);
+
+            adj[str1].push_back({str2 , values[i]});
+
+            adj[str2].push_back({str1 , 1/values[i]});
+            
+        }
+
+        n = queries.size();
+
+        vector<double>ans(n);
+
+        for(int q = 0 ; q < n ; q++)
+        {
+            double eval = -1.0 , temp = 1.0;
+
+            if(adj.count(queries[q][0]) and adj.count(queries[q][1]))
+            {
+                unordered_set<string>vis;
+
+                dfs(queries[q][0] , queries[q][1] , adj , vis , eval , temp);
+            }
+
+            ans[q] = eval;
+ 
+        }
+        
+        return ans;
+        
+    }
+};
