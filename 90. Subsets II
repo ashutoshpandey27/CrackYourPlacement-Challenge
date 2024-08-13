@@ -1,0 +1,39 @@
+class Solution {
+
+    private:
+
+    void solve(int indx , vector<int>&nums , vector<int>&temp , 
+    vector<vector<int>>&ans , int n)
+    {
+         ans.push_back(temp);
+
+        for(int i = indx ; i < n ; i++)
+        {
+            if(i > indx and nums[i] == nums[i-1])
+                continue;
+
+            temp.push_back(nums[i]);
+
+            solve(i + 1 , nums , temp , ans , n);
+
+            temp.pop_back();
+        }
+        
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+
+        int n = nums.size();
+
+        vector<vector<int>>ans;
+
+        vector<int>temp;
+
+        sort(begin(nums) , end(nums));
+
+        solve(0 , nums , temp , ans , n);
+
+        return ans;
+        
+    }
+};
