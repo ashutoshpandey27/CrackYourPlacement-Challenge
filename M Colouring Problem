@@ -1,0 +1,51 @@
+class Solution{
+    
+    private:
+    
+    bool isSafe(int node , int clr , bool graph[101][101] , int n , vector<int>&color)
+    {
+        for(int i = 0 ; i < n ; i++)
+        {
+            if(graph[node][i] == 1 and color[i] == clr)
+            return false;
+        }
+        
+        return true;
+    }
+    
+    bool solve(int node , bool graph[101][101] , int m , int n , vector<int>&color)
+    {
+        // agar aap sv node ko color krte hue n pe pahuch jate ho
+        if(node == n)
+        {
+            return true;
+        }
+        
+        // you can try every color to each node for that adjacents have different colors
+        
+        for(int clr = 1 ; clr <= m ; clr++)
+        {
+            if(isSafe(node , clr , graph , n , color) == true)
+            {
+                color[node] = clr;
+                
+                if(solve(node + 1 , graph , m , n , color) == true)
+                 return true;
+                 
+                color[node] = -1;
+            }
+        }
+        
+        return false;
+    }
+public:
+    
+    bool graphColoring(bool graph[101][101], int m, int n) {
+        
+        vector<int>color(n,-1);
+        
+        // node are from 0 to n - 1  then first call for 0
+        return solve(0 , graph , m , n , color );
+        
+    }
+};
