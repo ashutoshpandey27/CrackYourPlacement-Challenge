@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+
+        int u2 = 1 , u3 = 1 , u5 = 1 , i = 2;
+
+        vector<int>dp(n+1);
+
+        dp[0] = 1;
+
+        dp[1] = 1;
+        
+        while(i <= n)
+        {
+            int ugly2 = dp[u2]*2;
+
+            int ugly3 = dp[u3]*3;
+
+            int ugly5 = dp[u5]*5;
+
+            int num = min({ugly2 , ugly3 , ugly5});
+
+            dp[i] = num;
+
+            if(i <= n)
+             cout<<i<<" "<<dp[i]<<endl;
+
+            i++;
+
+            if(num == ugly2)
+            {
+                u2++;
+            }
+
+            if(num == ugly3)
+            {
+                u3++;
+            }
+
+            if(num == ugly5)
+            {   
+                u5++;
+            }
+  
+        }
+
+        return dp[n];
+        
+    }
+};
