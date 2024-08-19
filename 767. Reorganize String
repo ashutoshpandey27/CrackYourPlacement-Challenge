@@ -1,0 +1,64 @@
+class Solution {
+public:
+    string reorganizeString(string s) {
+
+        unordered_map<char , int>mp;
+
+        for(auto &ch : s)
+        {
+            mp[ch]++;
+        }
+
+        priority_queue<pair<int , char>>pq;
+        
+        for(auto it : mp)
+        {
+           pq.push({it.second , it.first});
+        }
+
+        string ans = "";
+
+        while(pq.size() > 1)
+        {
+            int freq1 = pq.top().first;
+
+            char ch1 = pq.top().second;
+
+            pq.pop();
+
+            int freq2 = pq.top().first;
+
+            char ch2 = pq.top().second;
+
+            pq.pop();
+
+            ans += ch1;
+
+            ans += ch2;
+
+            if(--freq1)
+                pq.push({freq1 , ch1});
+
+            if(--freq2)
+                pq.push({freq2 , ch2});
+
+        }
+
+        if(!pq.empty())
+        {
+            int freq1 = pq.top().first;
+
+            char ch1 = pq.top().second;
+
+            if(freq1 > 1)
+                return "";
+
+            ans += ch1;
+
+            pq.pop();
+        }
+
+        return ans;
+        
+    }
+};
