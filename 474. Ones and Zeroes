@@ -1,0 +1,50 @@
+class Solution {
+
+    private:
+
+    int solve(int indx , int cnt0 , int cnt1 , vector<pair<int , int>>&temp , 
+            int m , int n , int size , vector<vector<vector<int>>>&dp)
+        {
+            if(cnt0 > m or cnt1 > n)
+                return INT_MIN;
+            
+            if(indx >= size)
+                return 0;
+
+            if(dp[indx][cnt0][cnt1] != -1)
+                return dp[indx][cnt0][cnt1];
+
+            int take = 1 + solve(indx + 1 , cnt0 + temp[indx].first , 
+                        cnt1 + temp[indx].second , temp , m , n , size , dp);
+            
+            int not_take = solve(indx + 1 , cnt0 , cnt1 , temp , m , n , size , dp);
+
+            return dp[indx][cnt0][cnt1] = max(take , not_take);
+        }
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+
+        vector<pair<int , int>>temp;
+
+        for(auto str : strs)
+        {
+            int size = str.length() , cnt1 = 0;
+
+            for(int i = 0 ; i < size ; i++)
+            {
+                if(str[i] == '1')
+                    cnt1++;
+            }
+
+            temp.push_back({size - cnt1 , cnt1});
+        }
+
+        int size = temp.size();
+
+        vector<vector<vector<int>>>dp(size , vector<vector<int>>(101 , 
+        vector<int>(101 , -1)));
+
+        return solve(0 , 0 , 0 , temp , m , n , size , dp);
+        
+    }
+};
