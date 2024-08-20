@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+
+        int n = nums.size();
+
+        int i = 0 , j = n-1;
+        
+        double maxProd = INT_MIN , prod1 = 1 , prod2 = 1;
+        
+        while(i < n and j >= 0)
+        {
+            prod1 *= nums[i];
+
+            prod2 *= nums[j];
+
+            maxProd = max(maxProd , prod1);
+
+            maxProd = max(maxProd , prod2);
+
+            if(prod1 == 0)
+                prod1 = 1;
+            
+            if(prod2 == 0)
+                prod2 = 1;
+
+            i++;
+
+            j--;
+        }
+
+        return maxProd;
+    }
+};
