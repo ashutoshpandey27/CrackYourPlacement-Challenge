@@ -1,0 +1,33 @@
+class Solution {
+
+    private:
+    
+    int mod = 2*1e9;
+    
+    int solve(int i , int j , int M , int N , vector<vector<int>>&dp)
+    {
+        if( i >= M or j >= N)
+            return 0;
+            
+        if( i == M - 1 and j == N - 1)
+            return 1;
+            
+        if(dp[i][j] != -1)
+            return dp[i][j];
+            
+        int right = solve(i , j + 1 , M , N , dp);
+
+        int down  = solve(i + 1 , j , M , N , dp);
+
+        return dp[i][j] = (right + down)%mod;
+    }
+    
+public:
+    int uniquePaths(int M, int N) {
+
+        vector<vector<int>>dp(101 , vector<int>(101 , -1));
+        
+        return solve(0 ,  0 , M , N , dp);
+        
+    }
+};
