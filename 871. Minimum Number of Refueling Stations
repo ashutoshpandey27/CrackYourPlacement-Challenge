@@ -1,0 +1,79 @@
+class Solution {
+
+    private:
+
+    // int solve(int indx , int currFuel , int target , 
+    //         vector<vector<int>>& stations , int n , 
+    //         vector<int>&dp)
+    //     {
+    //             if(currFuel >= target)
+    //             {
+    //                 return 0;
+    //             }
+
+    //             if(indx >= n)
+    //             {
+    //                 return 1e9;
+    //             }
+
+    //             // string str = to_string(indx) + "," + to_string(currFuel);
+
+    //             if(dp[indx] != -1)
+    //                 return dp[indx];
+
+    //             int take = 1e9 , not_take = 1e9;
+
+    //             if(currFuel >= stations[indx][0])
+    //             {
+    //                not_take = solve(indx + 1 , currFuel , target , stations , n , dp);
+
+    //                 take = 1 + solve(indx + 1 , currFuel + stations[indx][1] , 
+    //                            target , stations , n , dp);
+    //             }
+
+    //             return dp[indx] = min(take , not_take);
+    //     }
+public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+
+        // int n = stations.size();
+
+        // vector<int>dp(n ,  -1);
+
+        // // unordered_map<string , int>dp;
+
+        // int minCntStations =  solve(0 , startFuel , target , stations , n , dp);
+
+        // return minCntStations == 1e9 ? -1 : minCntStations;
+
+        // ** using priority_queue
+
+        int n = stations.size() , minStations = 0 , i = 0 , currFuel = startFuel;
+
+        priority_queue<int>pq;
+
+
+        while(currFuel < target)
+        {
+            while(i < n and currFuel >= stations[i][0])
+            {
+                pq.push(stations[i][1]);
+
+                i++;
+            }
+            
+            if(pq.empty())
+                return -1;
+
+            currFuel += pq.top();
+
+            pq.pop();
+
+            minStations++;
+        }
+
+        return minStations;
+
+        
+    }
+};
