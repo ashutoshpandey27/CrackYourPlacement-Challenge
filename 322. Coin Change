@@ -1,0 +1,30 @@
+class Solution {
+
+    private:
+
+    int solve(int indx , int sum , vector<int>&coins , int n)
+    {
+        if(sum == 0)
+            return 0;
+
+        if(sum < 0 or indx >= n)
+            return 1e9;
+
+        int take = 1 + min(solve(indx , sum - coins[indx] , coins , n) , 
+        solve(indx + 1 , sum - coins[indx] , coins , n));
+
+        int not_take = solve(indx + 1 , sum , coins , n);
+
+        return min(take , not_take);
+    }
+public:
+    int coinChange(vector<int>& coins, int amount) {
+
+        int n = coins.size();
+
+        int cnt = solve(0 , amount , coins , n);
+
+        return cnt == 1e9 ? -1 : cnt;
+        
+    }
+};
