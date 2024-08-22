@@ -1,0 +1,43 @@
+class Solution {
+
+    private:
+
+    int solve(int indx , vector<int>&nums , int n , vector<int>&dp)
+    {
+        if(indx >= n)
+            return 0;
+
+        if(dp[indx] != -1)
+            return dp[indx];
+
+        int pts = 0 , i = indx;
+
+        while(i < n and (nums[i] == nums[indx]))
+        {
+            i++;
+
+            pts += nums[indx];
+        }
+
+        while(i < n and (nums[i] == nums[indx] + 1))
+            i++;
+
+        int take = pts + solve(i , nums , n , dp);
+
+        int not_take = solve(indx + 1 , nums , n , dp);
+
+        return dp[indx] = max(take , not_take);
+    }
+public:
+    int deleteAndEarn(vector<int>& nums) {
+
+        int n = nums.size();
+
+        sort(begin(nums) , end(nums));
+
+        vector<int>dp(n , -1);
+
+        return solve(0 , nums , n , dp);
+        
+    }
+};
