@@ -1,0 +1,80 @@
+// User function Template for C++
+
+class Solution{
+    public:
+    string findOrder(string dict[], int N, int K) {
+        
+        // make adjacency list
+        vector<int>adj[K];
+        
+        //  N - 2 time chalaenge kuki dict[i] ko dict[i+1] se compare kr rhe h
+        for(int i = 0 ; i < N - 1 ; i++)
+        {
+            string s1 = dict[i];
+            string s2 = dict[i+1];
+            
+            int len = min(s1.length() , s2.length());
+            
+            for(int ptr = 0 ; ptr < len ; ptr++)
+            {
+                if(s1[ptr] != s2[ptr])
+                {
+                    adj[s1[ptr] - 'a'].push_back(s2[ptr] - 'a');
+                    break;
+                }
+            }
+        }
+        
+        vector<int>topo;
+        vector<int>in_degree(K,0);
+        
+        for(int i = 0 ; i < K ; i++)
+        {
+            for(auto it : adj[i])
+            {
+                in_degree[it]++;
+            }
+        }
+        
+        queue<int>q;
+        
+        for(int i = 0 ; i < K ; i++)
+        {
+            if(in_degree[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+        
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            
+            for(auto it : adj[node])
+            {
+                if(--in_degree[it] == 0)
+                {
+                    q.push(it);
+                }
+            }
+        }
+        
+        // for(auto it : topo)
+        // cout<<it<<" ";
+        
+       string ans = "";
+        
+        for(auto it : topo)
+        {
+            ans += char(it + 'a');
+        }
+        
+        // for(auto it : ans)
+        // cout<<it<<" ";
+        
+        return ans;
+        
+    }
+};
