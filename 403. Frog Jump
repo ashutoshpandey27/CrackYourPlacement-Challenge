@@ -1,0 +1,46 @@
+class Solution {
+
+    private:
+
+    bool solve(int currStone_indx , int pjump , vector<int>&stones , 
+            unordered_map<int , int>&mp , vector<vector<int>>&dp , int n)
+    {
+        if(currStone_indx == n-1)
+            return true;
+
+        if(dp[currStone_indx][pjump] != -1)
+            return dp[currStone_indx][pjump];
+
+        int isPos = false;
+
+        for(int nextJump = pjump - 1 ; nextJump <= pjump + 1 ; nextJump++)
+        {
+            if(nextJump > 0)
+            {
+                int nextStone = stones[currStone_indx] + nextJump;
+
+                if(mp.count(nextStone))
+                {
+                    isPos |= solve(mp[nextStone] , nextJump , stones , mp , dp , n);
+                }
+            }
+        }
+
+        return dp[currStone_indx][pjump] = isPos;
+    }
+public:
+    bool canCross(vector<int>& stones) {
+
+        int n = stones.size();
+
+        unordered_map<int , int>mp;
+
+        for(int i = 0 ; i < n ; i++)
+            mp[stones[i]] = i;
+
+        vector<vector<int>>dp(n , vector<int>(n , -1));
+
+        return solve(0 , 0 , stones , mp , dp , n);
+        
+    }
+};
