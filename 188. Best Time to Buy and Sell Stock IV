@@ -1,0 +1,40 @@
+class Solution {
+
+    private:
+
+    int solve(int indx , int canBuy , int k , vector<int>&prices , int n , 
+             vector<vector<vector<int>>>&dp)
+    {
+        if(indx >= n or k == 0)
+            return 0;
+
+        if(dp[indx][canBuy][k] != -1)
+            return dp[indx][canBuy][k];
+
+        int buy = 0 , sell = 0;
+
+        if(canBuy)
+        {
+            buy = max(solve(indx + 1 , 1 , k , prices , n , dp) , 
+                      -1*prices[indx] + solve(indx + 1 , 0 , k , prices , n , dp));
+        }
+        else
+        {
+            sell = max(solve(indx + 1 , 0 , k , prices , n , dp) , 
+                    prices[indx] + solve(indx + 1 , 1 , k - 1 , prices , n , dp));
+        }
+
+        return dp[indx][canBuy][k] = max(buy , sell);
+    }
+public:
+    int maxProfit(int k, vector<int>& prices) {
+
+        int n = prices.size();
+
+        vector<vector<vector<int>>>dp(n , vector<vector<int>>(2 , 
+        vector<int>(k + 1, -1)));
+
+        return solve(0 , 1 , k , prices , n , dp);
+        
+    }
+};
