@@ -1,0 +1,40 @@
+class Solution{
+    
+    private:
+    
+    int solve(int indx , int amount , vector<int>&nums , int n , vector<vector<int>>&dp)
+    {
+        if(amount == 0)
+            return 0;
+            
+        if(indx >= n)
+        {
+           return 1e9;
+        }
+        
+        if(dp[indx][amount] != -1)
+            return dp[indx][amount];
+        
+        int take = 1e9 , not_take = 1e9;
+        
+        if(nums[indx] <= amount)
+            take = 1 + min(solve(indx , amount - nums[indx] , nums , n , dp) , solve(indx + 1 , amount - nums[indx] , nums , n , dp));
+        
+        not_take = solve(indx + 1 , amount , nums , n , dp);
+        
+        return dp[indx][amount] = min(take , not_take);
+        
+        
+    }
+	public:
+	int MinCoin(vector<int>nums, int amount)
+	{
+	    int n = nums.size();
+	    
+	    vector<vector<int>>dp(n , vector<int>(amount + 1 , -1));
+	    
+	    int ans = solve(0 , amount , nums , n , dp);
+	    
+	    return ans == 1e9 ? -1 : ans;
+	}
+};
