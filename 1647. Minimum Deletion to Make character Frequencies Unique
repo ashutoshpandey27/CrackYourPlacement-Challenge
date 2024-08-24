@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int minDeletions(string s) {
+
+        vector<int>mp(26 , 0);
+
+        for(auto ch : s)
+        {
+            mp[ch-'a']++;
+        }
+
+        vector<int>temp;
+
+        for(int i = 0 ; i < 26 ; i++)
+            if(mp[i])
+            {
+                 temp.push_back(mp[i]);
+            }
+               
+
+        sort(rbegin(temp) , rend(temp));
+
+        int n = temp.size() , cnt = 0;
+
+        unordered_set<int>st;
+
+        for(int i = 0 ; i < n ; i++)
+        {   
+            while(st.count(temp[i]) and temp[i] > 0)
+            {
+                cnt++;
+
+                temp[i]--;
+            }
+
+            st.insert(temp[i]);
+        }
+
+        return cnt;
+
+
+        
+    }
+};
