@@ -1,0 +1,47 @@
+class Solution {
+
+    private:
+
+    void dfs(int node , unordered_map<int , vector<int>>&adj , vector<int>&nums , 
+            unordered_map<int , int>&vis)
+            {
+                vis[node]++;
+
+                nums.push_back(node);
+
+                for(auto it : adj[node])
+                {
+                    if(!vis.count(it))
+                    {
+                        dfs(it , adj , nums , vis);
+                    }
+                }
+            }
+public:
+    vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
+
+        unordered_map<int , vector<int>>adj;
+
+        unordered_map<int , int>vis;
+
+        for(auto it : adjacentPairs)
+        {
+            adj[it[0]].push_back(it[1]);
+
+            adj[it[1]].push_back(it[0]);
+        }
+
+        vector<int>nums;
+
+        for(auto it : adj)
+        {
+            if(!vis.count(it.first) and it.second.size() == 1)
+            {
+                dfs(it.first , adj , nums , vis);
+            }
+        }
+
+        return nums;
+        
+    }
+};
