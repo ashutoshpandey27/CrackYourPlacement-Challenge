@@ -1,0 +1,71 @@
+class Solution {
+
+    private:
+
+    int N;
+
+    vector<int>queen;
+
+    vector<vector<string>>ans;
+
+    vector<string>board;
+
+    int isPos(int r , int c)
+    {
+         for(int i = 0 ; i < r ; i++)
+         {
+            int pr = i;
+
+            int pc = queen[i];
+
+            if((pc == c) or (abs(c - pc) == abs(r - pr)))
+                return 0;
+         }
+
+         return 1;
+    }
+
+    void solve(int level , int n)
+    {
+        if(level == n)
+        {
+            ans.push_back(board);
+
+            return;
+        }
+
+        for(int col = 0 ; col < n ; col++)
+        {
+            if(isPos(level , col))
+            {
+                queen[level] = col;
+
+                board[level][col] = 'Q';
+
+                solve(level + 1 , n);
+
+                board[level][col] = '.';
+
+                queen[level] = -1;
+            }
+        }
+
+    }
+public:
+    vector<vector<string>> solveNQueens(int n) {
+
+            N = n;
+
+            queen.resize(n , -1);
+
+            string s(n , '.');
+
+           for(int i = 0 ; i < n ; i++)
+                board.push_back(s);
+
+           solve(0 , n);
+
+           return ans;
+        
+    }
+};
