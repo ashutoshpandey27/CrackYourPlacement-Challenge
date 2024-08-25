@@ -1,0 +1,56 @@
+class Solution {
+
+    private:
+
+    bool isPalin(int i , int j , string &s)
+    {
+        while(i < j)
+        {
+            if(s[i] != s[j])
+                return false;
+
+            i++;
+
+            j--;
+        }
+
+        return true;
+    }
+
+    int solve(int indx , string &s , vector<string>&temp ,  
+            vector<vector<string>>&ans , int n)
+            {
+                if(indx == n)
+                {
+                    ans.push_back(temp);
+
+                    return;
+                }
+
+                for(int i = indx ; i < n ; i++)
+                {
+                    if(isPalin(indx , i , s))
+                    {
+                        temp.push_back(s.substr(indx , i - indx + 1));
+
+                        solve(i + 1 , s , temp , ans , n);
+
+                        temp.pop_back();
+                    }
+                }
+            }
+public:
+    vector<vector<string>> partition(string s) {
+
+        vector<vector<string>>ans;
+
+        vector<string>temp;
+
+        int n = s.length();
+
+        solve(0 , s , temp , ans , n);
+
+        return ans;
+        
+    }
+};
