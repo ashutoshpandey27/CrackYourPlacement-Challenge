@@ -1,0 +1,40 @@
+class Solution {
+
+    private:
+
+    void solve(int indx , vector<int>&nums ,  set<vector<int>>&st , int n)
+    {
+        if(indx == n)
+        {
+            st.insert(nums);
+
+            return;
+        }
+
+        for(int i = indx ; i < n ; i++)
+        {
+            swap(nums[indx] , nums[i]);
+
+            solve(indx + 1 , nums , st , n);
+
+            swap(nums[indx] , nums[i]);
+        }
+    }
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+
+        set<vector<int>>st;
+
+        vector<vector<int>>ans;
+
+        int n = nums.size();
+
+        solve(0 , nums , st , n);
+
+        for(auto it : st)
+            ans.push_back(it);
+
+        return ans;
+        
+    }
+};
