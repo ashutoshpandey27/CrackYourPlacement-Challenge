@@ -1,0 +1,45 @@
+class Solution
+{
+    private:
+    
+    string ans = "";
+    
+    void solve(int indx , string &str , int k , int n)
+    {
+        
+        ans = max(ans , str);
+            
+        if(k == 0)
+        {
+            return;
+        }
+        
+        for(int i = indx ; i < n ; i++)
+        {
+            for(int j = i + 1 ; j < n ; j++)
+            {
+                if(str[j] > str[i])
+                {
+                    swap(str[i] , str[j]);
+            
+                    solve(i + 1 , str , k - 1 , n);
+                    
+                    swap(str[i] , str[j]);
+                }
+            }
+            
+        }
+    }
+    public:
+    //Function to find the largest number after k swaps.
+    string findMaximumNum(string str, int k)
+    {
+        ans = str;
+        
+        int n = str.length();
+        
+        solve(0 , str , k , n);
+        
+        return ans;
+    }
+};
