@@ -1,0 +1,86 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+
+        int n = path.size() , i = 0;
+
+        stack<string>st;
+
+        while(i < n)
+        {
+            while(i < n and path[i] == '/')
+            {
+                i++;
+            }
+
+            int cntPeriod = 0;
+
+            while(i < n and path[i] == '.')
+            {
+                cntPeriod++;
+
+                i++;
+            }
+
+            if(cntPeriod == 2)
+            {
+                if((i < n and path[i] == '/') or i == n)
+                {
+                    if(!st.empty())
+                      st.pop();
+
+                    cntPeriod = 0;
+                }
+            }
+
+            string str = "";
+
+            if(cntPeriod)
+            {
+                string s(cntPeriod , '.');
+
+                if(cntPeriod > 2)
+                    str += s;
+                else if(i < n and path[i] != '/')
+                   str += s;
+
+            }
+
+            if(i < n and (path[i] != '.' and path[i] != '/'))
+            {
+                while(i < n and (path[i] != '/'))
+                {
+                    str += path[i];
+
+                    i++;
+                }
+            }
+
+            if(!str.empty())
+              st.push(str);
+        }
+
+        if(st.empty())
+            return "/";
+
+        string simplePath = "";
+
+        while(!st.empty())
+        {
+            string temp = st.top();
+
+            reverse(begin(temp) , end(temp));
+
+            simplePath += temp;
+
+            st.pop();
+
+            simplePath += "/";
+        }
+
+        reverse(begin(simplePath) , end(simplePath));
+
+        return simplePath;
+        
+    }
+};
