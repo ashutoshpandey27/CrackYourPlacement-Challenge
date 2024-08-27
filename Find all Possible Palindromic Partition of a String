@@ -1,0 +1,54 @@
+class Solution {
+    
+    private:
+    
+    bool isPalin(int i , int j , string &s)
+    {
+        while(i < j)
+        {
+            if(s[i] != s[j])
+                return false;
+                
+            i++;
+            
+            j--;
+        }
+        
+        return true;
+    }
+    
+    void solve(int indx , string &s , int n , vector<string>&temp ,  vector<vector<string>>&ans)
+    {
+        if(indx >= n)
+        {
+            ans.push_back(temp);
+            
+            return;
+        }
+        
+        for(int i = indx ; i < n ; i++)
+        {
+            if(isPalin(indx , i , s))
+            {
+                temp.push_back(s.substr(indx , i - indx + 1));
+                
+                solve(i + 1 , s , n , temp , ans);
+                
+                temp.pop_back();
+            }
+        }
+    }
+  public:
+    vector<vector<string>> allPalindromicPerms(string S) {
+        
+        vector<vector<string>>ans;
+        
+        vector<string>temp;
+        
+        int n = S.length();
+        
+        solve(0 , S , n , temp , ans);
+        
+        return ans;
+    }
+};
