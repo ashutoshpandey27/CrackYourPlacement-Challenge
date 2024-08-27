@@ -1,0 +1,44 @@
+class Solution{
+    
+    private:
+    
+    int s1 = 0 , s2 = 0 , minDiff = 1e9;
+    
+    void solve(int indx , int sum , vector<int>&arr , int t_size , int n , int elem , int tsum)
+    {
+        if(elem == t_size)
+        {
+            if(minDiff > abs(sum - (tsum - sum)))
+            {
+                s1 = sum;
+                
+                s2 = tsum - sum;
+                
+                minDiff = abs(sum - (tsum - sum));
+            }
+        }
+        
+        
+        if(indx >= n)
+            return;
+            
+        solve(indx + 1 , sum , arr , t_size , n , elem , tsum);
+            
+        solve(indx + 1 , sum + arr[indx] , arr , t_size , n , elem + 1 , tsum);
+            
+    }
+    public:
+     vector<vector<int>> minDifference(vector<int>& arr, int n){
+         
+        int size = n/2;
+         
+        if(n&1)
+            size = (n+1)/2;
+        
+        int tsum = accumulate(begin(arr) , end(arr) , 0);
+        
+        solve(0 , 0 , arr , size , n , 0 , tsum);
+        
+        return {{min(s1 , s2)} , {max(s1 , s2)}};
+    }
+};
